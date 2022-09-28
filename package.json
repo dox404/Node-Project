@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":" nodemon src/index.js -e js,hbs,css"
+    "dev": " nodemon src/index.js -e js,hbs,css"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.1",
-    "hbs": "^4.2.0"
+    "hbs": "^4.2.0",
+    "mongoose": "^6.6.2"
   }
 }
