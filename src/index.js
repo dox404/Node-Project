@@ -51,7 +51,7 @@ app.post('/register',async(req,res)=>{
         Password:req.body.password
        }) 
        const registered=await data.save()
-       res.status(201).send('registration sucessfull')
+       res.status(201).render('home')
       
     }catch(e){
         res.status(400).send(e)
@@ -65,7 +65,7 @@ app.post('/register',async(req,res)=>{
 app.get('/register', (req, res)=>{
     res.render('regis')
 })
-app.listen(8000,()=>{
+app.listen(3000,()=>{
     console.log('server is started on port 3000')
 
 })
