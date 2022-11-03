@@ -11,7 +11,7 @@ const loginSchema=new mongoose.Schema({
     Email:{
         type:String,
         required:true,
-        unique:true
+        // unique:true
     },
     PhoneNumber:{
         type:Number,

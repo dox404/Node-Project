@@ -4,6 +4,7 @@ const app=express()
 const hbs=require('hbs')
 const User=require('./models/register-model')
 require('./db/mongo')
+const bcrypt = require('bcrypt')
 
 
 const partial_path = path.join(__dirname, '../templates/partials')
@@ -36,6 +37,11 @@ app.get('/login', (req, res) => {
 app.get('/contact', (req, res) => {
     res.render('contact')
 })
+app.get('/feed', (req, res) => {
+    res.render('feed')
+})
+
+
 
 
 app.post('/register',async(req,res)=>{
@@ -48,7 +54,7 @@ app.post('/register',async(req,res)=>{
         Email:req.body.email,
         PhoneNumber:req.body.phone,
         Gender:req.body.gender,
-        Password:req.body.password
+        Password:bcrypt.hashSync(req.body.password,10)
        }) 
        const registered=await data.save()
        res.status(201).render('home')
@@ -59,6 +65,31 @@ app.post('/register',async(req,res)=>{
     }
 
     
+})
+
+
+app.post('/login',async(req,res)=>{
+  try{
+    const email=req.body.email
+    const password=req.body.password
+
+    const hashpws=bcrypt.hashSync(req.body.password,10)
+    console.log(hashpws)
+    
+    const useremail=await User.findOne({Email:email})
+    console.log(useremail)
+    console.log(useremail.Gender)
+    if(useremail.Password===hashpws){
+        res.status(201).render('feed')
+    }else{
+
+        res.send('passwords are not matching')
+    }
+
+  }catch(error){
+    res.status(400).send("Invalid email")
+    console.log(error)
+  }
 })
 
 
