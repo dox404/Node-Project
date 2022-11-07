@@ -73,14 +73,13 @@ app.post('/login',async(req,res)=>{
     const email=req.body.email
     const password=req.body.password
 
-    const hashpws=bcrypt.hashSync(req.body.password,10)
-    console.log(hashpws)
+    // const hashpws=bcrypt.hashSync(req.body.password,10)
+    // console.log(hashpws)
     
-    const useremail=await User.findOne({Email:email})
-    console.log(useremail)
-    console.log(useremail.Gender)
-    if(useremail.Password===hashpws){
-        res.status(201).render('feed')
+    const user=await User.findOne({Email:email})
+    console.log(user)
+    if(bcrypt.compareSync(password,user.Password)){
+        res.status(201).redirect('feed')
     }else{
 
         res.send('passwords are not matching')
