@@ -97,9 +97,7 @@ app.post('/login', async (req, res) => {
 
         //sending the jwt token as cookie
         console.log(user)
-        const storeLocal = (user) => {
-            localStorage.setItem('userData', JSON.stringify(user))
-        }
+    
 
         if (bcrypt.compareSync(password, user.Password)) {
 
