@@ -11,6 +11,7 @@ const auth = require("./middleware/auth")
 const CookieParser = require('cookie-parser')
 
 
+
 const partial_path = path.join(__dirname, '../templates/partials')
 const template_path = path.join(__dirname, '../templates/views')
 
@@ -37,17 +38,14 @@ app.get('/about', (req, res) => {
     res.render("about")
 })
 app.get('/login', (req, res) => {
+
     res.render('login')
 })
 app.get('/contact', (req, res) => {
-    // res.cookie('jwtc','mani')
+
     res.render('contact')
 })
 app.get('/feed', auth, (req, res) => {
-    // console.log(`the cookie is ${req.cookies.jwt}`)
-
-
-
     res.render('feed')
 
 })
@@ -92,48 +90,24 @@ app.post('/login', async (req, res) => {
 
         //GETTING THE FULL DETAILS OF THE USER USING THE EMAIL
         const user = await User.findOne({ Email: email })
-        // console.log(user)
         //compareing the passwords
-
-        //sending the jwt token as cookie
         console.log(user)
-    
-
         if (bcrypt.compareSync(password, user.Password)) {
 
             const token = await user.generateAuthToken()
 
             console.log(token)
-
+            //sending the jwt token as cookie
             res.cookie("jwt", token, {
 
                 httpOnly: true,
 
                 expires: new Date(Date.now() + 3600000)
-
             })
-            // res.cookie("userData", user, {
-
-            //     httpOnly: true,
-
-            //     expires: new Date(Date.now() + 3600000)
-
-            // })
-
-
-
-            res.redirect('/feed');
-            // res.send(user)
-
-
-
+            res.redirect('feed')
         } else {
             res.send('passwords are not matching')
         }
-
-
-
-
     } catch (error) {
         res.status(400).send("Invalid email")
         console.log(error)
@@ -143,7 +117,7 @@ app.post('/login', async (req, res) => {
 
 
 app.get('/register', (req, res) => {
-    res.render('regis')
+    res.render('register')
 })
 app.listen(3000, () => {
     console.log('server is started on port 3000')

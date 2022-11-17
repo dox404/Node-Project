@@ -1,8 +1,4 @@
-/* h1{
-    color:rgb(183, 255, 0);
-    font: verdana;
-    text-align:center;
-} */
+
 p{
     color:red;
     font: verdana;
@@ -46,8 +42,3 @@ p{
     background:rgb(255, 255, 255);
     box-shadow: 0px 5px 20px rgba(0,0,0,0.5);
 }
-/* .imgslider{
-    width:60%;
-    height:600px;
-    background-image: url("../img/1.jpg");
-} */
