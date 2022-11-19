@@ -9,7 +9,19 @@ require('./db/mongo')
 const bcrypt = require('bcrypt')
 const auth = require("./middleware/auth")
 const CookieParser = require('cookie-parser')
+const flash=require('connect-flash')
+const seission=require('express-session')
 
+
+//using seission and flashes
+
+app.use(seission({
+    secret:'secret',
+    saveUninitialized:true,
+    resave:true
+}))
+
+app.use(flash())
 
 
 const partial_path = path.join(__dirname, '../templates/partials')
@@ -38,14 +50,14 @@ app.get('/about', (req, res) => {
     res.render("about")
 })
 app.get('/login', (req, res) => {
-
+    req.flash('msg','Welcome to feed')
     res.render('login')
 })
 app.get('/contact', (req, res) => {
-
     res.render('contact')
 })
 app.get('/feed', auth, (req, res) => {
+   
     res.render('feed')
 
 })
@@ -76,6 +88,8 @@ app.post('/register', async (req, res) => {
 })
 
 
+// {successredirect:'/feed',failiureredirect:'/login'}
+
 app.post('/login', async (req, res) => {
     try {
 
@@ -91,12 +105,12 @@ app.post('/login', async (req, res) => {
         //GETTING THE FULL DETAILS OF THE USER USING THE EMAIL
         const user = await User.findOne({ Email: email })
         //compareing the passwords
-        console.log(user)
+        // console.log(user)
         if (bcrypt.compareSync(password, user.Password)) {
 
             const token = await user.generateAuthToken()
 
-            console.log(token)
+            // console.log(token)
             //sending the jwt token as cookie
             res.cookie("jwt", token, {
 
@@ -104,7 +118,13 @@ app.post('/login', async (req, res) => {
 
                 expires: new Date(Date.now() + 3600000)
             })
+        
+            // console.log(user)
+
+            // res.send(req.flash('msg'))
             res.redirect('feed')
+           
+            
         } else {
             res.send('passwords are not matching')
         }
@@ -112,12 +132,13 @@ app.post('/login', async (req, res) => {
         res.status(400).send("Invalid email")
         console.log(error)
     }
+    
 })
 
 
 
 app.get('/register', (req, res) => {
-    res.render('register')
+    res.render('regis')
 })
 app.listen(3000, () => {
     console.log('server is started on port 3000')
