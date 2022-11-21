@@ -9,19 +9,9 @@ require('./db/mongo')
 const bcrypt = require('bcrypt')
 const auth = require("./middleware/auth")
 const CookieParser = require('cookie-parser')
-const flash=require('connect-flash')
-const seission=require('express-session')
 
 
 //using seission and flashes
-
-app.use(seission({
-    secret:'secret',
-    saveUninitialized:true,
-    resave:true
-}))
-
-app.use(flash())
 
 
 const partial_path = path.join(__dirname, '../templates/partials')
@@ -50,7 +40,6 @@ app.get('/about', (req, res) => {
     res.render("about")
 })
 app.get('/login', (req, res) => {
-    req.flash('msg','Welcome to feed')
     res.render('login')
 })
 app.get('/contact', (req, res) => {
@@ -122,7 +111,7 @@ app.post('/login', async (req, res) => {
             // console.log(user)
 
             // res.send(req.flash('msg'))
-            res.redirect('feed')
+            res.render('feed',user)
            
             
         } else {
