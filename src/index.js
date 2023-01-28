@@ -33,6 +33,10 @@ app.use(express.json())
 app.use(CookieParser())
 app.use(express.urlencoded({ extended: false }))
 
+
+
+
+//routes
 app.get('/', (req, res) => {
     res.render("home")
 })
@@ -48,6 +52,13 @@ app.get('/contact', (req, res) => {
 app.get('/feed', auth, (req, res) => {
    
     res.render('feed')
+
+})
+
+//feed routes
+app.get('/profile',(req, res) => {
+   
+    res.render('profile')
 
 })
 
@@ -108,11 +119,11 @@ app.post('/login', async (req, res) => {
                 expires: new Date(Date.now() + 3600000)
             })
         
-            // console.log(user)
+            
 
             // res.send(req.flash('msg'))
             res.render('feed',user)
-           
+           console.log(user)
             
         } else {
             res.send('passwords are not matching')
