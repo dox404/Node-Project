@@ -77,7 +77,7 @@ app.post('/register', async (req, res) => {
             Password: bcrypt.hashSync(req.body.password, 10)
         })
         const registered = await data.save()
-        res.status(201).render('home')
+        res.status(201).redirect('/')
 
     } catch (e) {
         res.status(400).send(e)
@@ -122,8 +122,8 @@ app.post('/login', async (req, res) => {
             
 
             // res.send(req.flash('msg'))
-            res.render('feed',user)
-           console.log(user)
+            res.redirect('feed')
+           
             
         } else {
             res.send('passwords are not matching')
